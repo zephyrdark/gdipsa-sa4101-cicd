@@ -1,0 +1,21 @@
+# workflow
+name: Workflow for GDIPSA SA4101 CI/CD Assignment
+
+# trigger
+on:
+- push
+
+# jobs
+jobs:
+
+  # name of jobs
+
+  # 1. scan-code-for-vulnerabilities
+
+  # 2. containerise-golang-application
+
+  # 3. push-image-to-docker-hub
+
+  # 4. digitally-sign-the-image
+
+  # 5. send-notification-to-slack
