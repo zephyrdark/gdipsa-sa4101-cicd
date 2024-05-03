@@ -3,19 +3,34 @@ name: Workflow for GDIPSA SA4101 CI/CD Assignment
 
 # trigger
 on:
-- push
-
+  push:
+    branches:
+      - release/v<digit>.<digit>    
 # jobs
 jobs:
 
   # name of jobs
+  my-cicd-pipeline:
 
-  # 1. scan-code-for-vulnerabilities
+    # runner
+    runs-on: ubuntu-latest
 
-  # 2. containerise-golang-application
+    # steps in this job
+    steps:
 
-  # 3. push-image-to-docker-hub
+    # 1. scan-code-for-vulnerabilities
+    - name: Scan code for vulnerabilities
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'table'
+        severity: 'CRITICAL'
 
-  # 4. digitally-sign-the-image
+    # 2. containerise-golang-application
 
-  # 5. send-notification-to-slack
+    # 3. push-image-to-docker-hub
+
+    # 4. digitally-sign-the-image
+
+    # 5. send-notification-to-slack
