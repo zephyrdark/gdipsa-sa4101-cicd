@@ -2,16 +2,15 @@
 name: Workflow for GDIPSA SA4101 CI/CD Assignment
 
 # trigger
-on: push
+on:
+  push:
+    branches: ['release/v[0-9]+.[0-9]+']  
 
 # jobs
 jobs:
 
   # name of jobs
   my-cicd-pipeline:
-
-    # if condition
-    if: contains(github.ref_name,'release/v[0-9]+.[0-9]+')
 
     # runner
     runs-on: ubuntu-latest
