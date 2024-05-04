@@ -11,7 +11,7 @@ jobs:
   my-cicd-pipeline:
 
     # if condition
-    # if: ${{ github.ref_name == 'release/v<digit>.<digit>'}}
+    if: ${{ github.ref_name == 'release/v0.0'}}
 
     # runner
     runs-on: ubuntu-latest
