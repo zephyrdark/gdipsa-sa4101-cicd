@@ -39,7 +39,7 @@ jobs:
     - name: Test create JSON payload of trivy report
       id: trivy-report-step
       run: |
-          cat trivy-report.txt | { read trivy_report; echo "{JSON_PAYLOAD_TRIVY_REPORT}={\"text"\:"$trivy_report"}"; } >> $GITHUB_OUTPUT
+          cat trivy-report.txt | { read trivy_report; echo "{JSON_PAYLOAD_TRIVY_REPORT}={\"text\":"$trivy_report"}"; } >> $GITHUB_OUTPUT
 
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     # - name: Slack Notification
@@ -50,13 +50,13 @@ jobs:
     # 1a2. send trivy report to slack after 1a1.
     - name: Send custom JSON data to Slack workflow
       env:
-        TRIVY_REPORT: ${{ steps.trivy-report-step.outputs.TRIVY_REPORT }}
+        JSON_PAYLOAD_TRIVY_REPORT: ${{ steps.trivy-report-step.outputs.JSON_PAYLOAD_TRIVY_REPORT }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
       id: slack
       uses: slackapi/slack-github-action@v1.26.0
       with:
-        payload: $TRIVY_REPORT"
+        payload: $JSON_PAYLOAD_TRIVY_REPORT
 
     # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
