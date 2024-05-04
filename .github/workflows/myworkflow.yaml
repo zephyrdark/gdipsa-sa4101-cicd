@@ -36,10 +36,10 @@ jobs:
         output: trivy-report.txt
 
     # test output report // tested and it works to output in text file, visible from GitHub Workflow.
-    - name: Test set output report in text
+    - name: Test create JSON payload of trivy report
       id: trivy-report-step
       run: |
-          echo "{TRIVY_REPORT}={cat trivy-report.txt}" >> $GITHUB_OUTPUT
+          cat trivy-report.txt | { read trivy_report; echo "{JSON_PAYLOAD_TRIVY_REPORT}={\"text"\:"$trivy_report"}"; } >> $GITHUB_OUTPUT
 
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     # - name: Slack Notification
@@ -56,10 +56,7 @@ jobs:
       id: slack
       uses: slackapi/slack-github-action@v1.26.0
       with:
-        payload: |
-          {
-            "text": $TRIVY_REPORT
-          }
+        payload: $TRIVY_REPORT"
 
     # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
