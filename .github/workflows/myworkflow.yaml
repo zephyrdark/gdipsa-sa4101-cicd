@@ -24,7 +24,7 @@ jobs:
     # 0b. build-image-from-Dockerfile
     - name: Build image from github commit
       run: |
-          docker build -t 'docker.io/${{ github.ref_name }}:${{ github.sha }}'
+          docker build -t ${{ github.ref_name }}:${{ github.sha }}
 
     # 1. scan-code-for-vulnerabilities
     - name: Aqua Security Trivy
