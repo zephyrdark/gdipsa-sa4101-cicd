@@ -37,13 +37,27 @@ jobs:
 
     # 1a. test output report
     - name: Test output report in text
-      run: cat trivy-report.txt
+      run: |
+          echo "TRIVY_REPORT=cat trivy-report.txt" >> $GITHUB_ENV
 
     # # 1a. send report to slack
     # - name: Slack Notification
     #   uses: rtCamp/action-slack-notify@v2
     #   env:
     #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
+
+    - name: Send custom JSON data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        # For posting a rich message using Block Kit
+        payload: |
+          {
+            "text": $TRIVY_REPORT
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
     # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
