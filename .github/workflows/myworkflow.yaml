@@ -22,10 +22,10 @@ jobs:
       uses: actions/checkout@v4
 
     # 0b. build-image-from-Dockerfile
+    # docker build -t ${{ github.repositoryUrl }}#${{ github.ref }}:${{ github.sha }}
     - name: Build image from github commit
       run: |
           docker build -t https://github.com/zephyrdark/gdipsa-sa4101-cicd/
-          # docker build -t ${{ github.repositoryUrl }}#${{ github.ref }}:${{ github.sha }}
 
     # 1. scan-code-for-vulnerabilities
     - name: Aqua Security Trivy
