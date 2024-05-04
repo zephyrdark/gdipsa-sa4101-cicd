@@ -15,7 +15,7 @@ jobs:
     # runner
     runs-on: ubuntu-latest
 
-    # condition for not running pipeline if commit message starts with #NORUN
+    # condition for not running pipeline if commit message starts with #NORUN.
     if: ${{ !startsWith(github.event.head_commit.message, '#NORUN') }}
 
     # steps in this job
