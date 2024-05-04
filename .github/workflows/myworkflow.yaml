@@ -4,7 +4,7 @@ name: Workflow for GDIPSA SA4101 CI/CD Assignment
 # trigger
 on:
   push:
-    branches: ['release/v[0-9]+.[0-9]+']  
+    branches: ['release/v[0-9]+.[0-9]+']
 
 # jobs
 jobs:
@@ -14,6 +14,9 @@ jobs:
 
     # runner
     runs-on: ubuntu-latest
+
+    # condition for not running pipeline if commit message starts with #NORUN
+    if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
 
     # steps in this job
     steps:
