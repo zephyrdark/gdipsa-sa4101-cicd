@@ -22,13 +22,18 @@ jobs:
       uses: actions/checkout@v4
 
     # 0b. build-image-from-Dockerfile
-    - name: Build image from github commit
-      run: |
-          docker build ${{ github.repositoryUrl }}#${{ github.ref }}:${{ github.sha }}
+    # - name: Build image from github commit
+    #   run: |
+    #      docker build ${{ github.repositoryUrl }}#${{ github.ref }}:${{ github.sha }}
 
     # 1. scan-code-for-vulnerabilities
     - name: Aqua Security Trivy
       uses: aquasecurity/trivy-action@0.19.0
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'table'
+        severity: 'HIGH'  
 
     # 2. containerise-golang-application
 
