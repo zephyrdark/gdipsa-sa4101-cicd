@@ -38,11 +38,12 @@ jobs:
     # test output report // tested and it works to output in text file, visible from GitHub Workflow.
     - name: Test create JSON payload of trivy report
       id: trivy-report-step
-      run: |
-          cat trivy-report.txt | { read trivy_report; echo "{JSON_PAYLOAD_TRIVY_REPORT}={\"text\":"$trivy_report"}"; } >> $GITHUB_OUTPUT
-          cat $JSON_PAYLOAD_TRIVY_REPORT
-      env:
-        JSON_PAYLOAD_TRIVY_REPORT: ${{ steps.trivy-report-step.outputs.JSON_PAYLOAD_TRIVY_REPORT }}
+      run: cat trivy-report.txt | { read trivy_report; echo "$trivy_report"; }
+      # run: |
+      #     cat trivy-report.txt | { read trivy_report; echo "{JSON_PAYLOAD_TRIVY_REPORT}={\"text\":\"$trivy_report\"}"; } >> $GITHUB_OUTPUT
+      #     cat $JSON_PAYLOAD_TRIVY_REPORT
+      # env:
+      #   JSON_PAYLOAD_TRIVY_REPORT: ${{ steps.trivy-report-step.outputs.JSON_PAYLOAD_TRIVY_REPORT }}
 
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     # - name: Slack Notification
