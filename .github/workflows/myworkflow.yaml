@@ -34,6 +34,9 @@ jobs:
         format: 'table'
         severity: 'HIGH'  
         output: trivy-report.txt
+
+    # 1a. test output report
+    - name: Test output report in text
       run: cat trivy-report.txt
 
     # # 1a. send report to slack
