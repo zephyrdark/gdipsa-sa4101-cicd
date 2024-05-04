@@ -58,7 +58,7 @@ jobs:
       with:
         payload: |
           {
-            "text": "$TRIVY_REPORT"
+            "text": $TRIVY_REPORT
           }
 
     # 0b. build-image-from-Dockerfile
