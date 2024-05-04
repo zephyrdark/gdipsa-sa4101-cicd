@@ -11,13 +11,20 @@ jobs:
   my-cicd-pipeline:
 
     # if condition
-    if: ${{ github.ref_name == 'release/v0.0'}}
+    if: contains(github.ref,'release/v0.0')
 
     # runner
     runs-on: ubuntu-latest
 
     # steps in this job
     steps:
+    # 0a. checkout-code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # 0b. build-image-from-Dockerfile
+    - name: Build image from Dockerfile
+      run: docker build -t docker.io
 
     # 1. scan-code-for-vulnerabilities
     - name: Aqua Security Trivy
