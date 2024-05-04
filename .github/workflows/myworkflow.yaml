@@ -38,7 +38,7 @@ jobs:
     # test output report // tested and it works to output in text file, visible from GitHub Workflow.
     - name: Test create JSON payload of trivy report
       id: trivy-report-step
-      run: cat trivy-report.txt | { read trivy_report; echo "$trivy_report"; }
+      run: cat trivy-report.txt
       # run: |
       #     cat trivy-report.txt | { read trivy_report; echo "{JSON_PAYLOAD_TRIVY_REPORT}={\"text\":\"$trivy_report\"}"; } >> $GITHUB_OUTPUT
       #     cat $JSON_PAYLOAD_TRIVY_REPORT
@@ -52,15 +52,15 @@ jobs:
     #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
 
     # 1a2. send trivy report to slack after 1a1.
-    - name: Send custom JSON data to Slack workflow
-      env:
-        JSON_PAYLOAD_TRIVY_REPORT: ${{ steps.trivy-report-step.outputs.JSON_PAYLOAD_TRIVY_REPORT }}
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-      id: slack
-      uses: slackapi/slack-github-action@v1.26.0
-      with:
-        payload: $JSON_PAYLOAD_TRIVY_REPORT
+    # - name: Send custom JSON data to Slack workflow
+    #   env:
+    #     JSON_PAYLOAD_TRIVY_REPORT: ${{ steps.trivy-report-step.outputs.JSON_PAYLOAD_TRIVY_REPORT }}
+    #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
+    #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+    #   id: slack
+    #   uses: slackapi/slack-github-action@v1.26.0
+    #   with:
+    #     payload: $JSON_PAYLOAD_TRIVY_REPORT
 
     # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
