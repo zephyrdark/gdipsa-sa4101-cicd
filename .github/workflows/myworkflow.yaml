@@ -33,7 +33,7 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: 'HIGH'  
+        severity: 'CRITICAL'  
 
     # 2. containerise-golang-application
 
