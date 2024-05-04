@@ -11,7 +11,7 @@ jobs:
   my-cicd-pipeline:
 
     # if condition
-    if: contains(github.ref,'release/v#.#')
+    if: contains(github.ref,'release/v[0-9]+.[0-9]+')
 
     # runner
     runs-on: ubuntu-latest
