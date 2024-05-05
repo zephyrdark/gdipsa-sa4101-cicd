@@ -52,7 +52,11 @@ jobs:
     # 2. NO VULNERABILITY - proceed to build and push container
     - name: Build and push container
       if: steps.trivy-scan.outcome == 'success'
-      run: echo 'Test'
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
+        SLACK_TITLE: Image built and signed // not really
+        SLACK_MESSAGE: "*Name:* ${{ github.actor }}\n*Metriculation:* A0290896J\n*Email:* alvin.leezhiwei@gmail.com\n*Git:* https://github.com/${{ github.repository }}\n*Image:* wip"
 
   # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
