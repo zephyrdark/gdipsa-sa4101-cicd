@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # condition for not running pipeline if commit message starts with #NORUN.
-    if: ${{ TRIVY_REPORT_PRODUCED == 'true' }}
+    if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
 
     # steps in this job
     steps:
