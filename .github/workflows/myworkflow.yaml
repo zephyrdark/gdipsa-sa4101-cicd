@@ -19,31 +19,39 @@ jobs:
 
     # 1. scan-code-for-vulnerabilities
     - name: Aqua Security Trivy
+      id: trivy-scan
       uses: aquasecurity/trivy-action@0.19.0
       with:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: 'CRITICAL'  
+        severity: '${{ secrets.TRIVY_SEVERITY_TEST_SUBMISSION }}' # CRITICAL / HIGH
         output: trivy-report.txt
-    # exit-code: 1
-   
-    # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
+        exit-code: '1'
+
+    # 1a. VULNERABILITY DETECTED - send report to slack // tested and it works to send notification to slack.
     - name: VULNERABILITY DETECTED - Slack Notification
+      if: steps.trivy-scan.outcome == 'failure'
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
         SLACK_TITLE: Scan failed - ${{ github.actor }} 
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
 
-    # 1a2. upload file to slack
+    # 1b. VULNERABILITY DETECTED - upload file to slack
     - name: VULNERABILITY DETECTED - Slack Upload File
+      if: steps.trivy-scan.outcome == 'failure'
       uses: MeilCli/slack-upload-file@v4.0.6
       with:
         slack_token: ${{ secrets.SLACK_TOKEN_TEST_SUBMISSION }}
         channel_id: ${{ secrets.SLACK_CHANNEL_ID_TEST_SUBMISSION }}
         file_path: 'trivy-report.txt'
         initial_comment: 'Scan report by ${{ github.actor }}'
+
+    # 2. NO VULNERABILITY - proceed to build and push container
+    - name: Build and push container
+      if: steps.trivy-scan.outcome == 'success'
+      run: echo 'Test'
 
   # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
