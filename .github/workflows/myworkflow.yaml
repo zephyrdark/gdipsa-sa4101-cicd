@@ -40,12 +40,16 @@ jobs:
 
     # set env var on trivy-report.txt produced status
     - name: Check if trivy report was produced
-      # comment out
+      # comment out - v1 (doesn't work)
       # run: |
       #   if [ -f trivy-report.txt ]; then echo "TRIVY_REPORT_PRODUCED='true'" >> $GITHUB_ENV
       
-      # test this
-      run: echo "TRIVY_REPORT_PRODUCED=$(if [ -f trivy-report.txt ]; then echo "'true'")" >> $GITHUB_ENV
+      # comment out - v2 (doesn't work, says got extra ")" after the 'true')
+      # run: |
+      #     echo "TRIVY_REPORT_PRODUCED=$(if [ -f trivy-report.txt ]; then echo "'true'")" >> $GITHUB_ENV
+
+      # test this - v3. try to at least output 'true' first.
+      run: if [ -f trivy-report.txt ]; then echo "'true'"
 
   # name of job
   detected-vulnerabilities-notify-slack:
