@@ -17,7 +17,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-  scan:
+  scan-and-notify:
     runs-on: ubuntu-latest  
     steps:
     # 1. scan-code-for-vulnerabilities
@@ -30,18 +30,7 @@ jobs:
         severity: 'HIGH'  
         output: trivy-report.txt
         exit-code: 1
-
-  detected-vulnerabilities-notify-slack:
-
-    # wait for checkout-and-scan job to complete.
-    needs: [checkout, scan]
-
-    # runner
-    runs-on: ubuntu-latest
-
-    # steps in this job
-    steps:
-    
+   
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
       uses: rtCamp/action-slack-notify@v2
