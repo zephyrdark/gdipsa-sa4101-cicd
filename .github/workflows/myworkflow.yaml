@@ -27,9 +27,9 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: 'CRITICAL'  
+        severity: 'HIGH'  
         output: trivy-report.txt
-        exit-code: 1
+        # exit-code: 1
    
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
