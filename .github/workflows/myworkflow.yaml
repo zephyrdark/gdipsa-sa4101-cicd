@@ -61,6 +61,9 @@ jobs:
           echo "TRIVY_REPORT_PRODUCED=$(if ! [ -f trivy-report.txt ]; then echo "false"; fi)" >> $GITHUB_ENV
           if ! [ -f trivy-report.txt ]; then echo "false"; fi
 
+    - name: Test
+      run: echo $TRIVY_REPORT_PRODUCED
+
   # name of job
   detected-vulnerabilities-notify-slack:
 
@@ -77,7 +80,7 @@ jobs:
     - name: VULNERABILITY DETECTED - Slack Notification
 
       # condition for running step trivy-report was produced. v3.
-      if: ${{ env.TRIVY_REPORT_PRODUCED == true }}
+      if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
 
       uses: rtCamp/action-slack-notify@v2
       env:
