@@ -99,7 +99,7 @@ jobs:
           # for tag in ${TAGS}; do
           # images+="${tag}@${DIGEST} "
           # done
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}@${DIGEST}
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
       env:
         # TAGS: ${{ steps.docker_meta.outputs.tags }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
