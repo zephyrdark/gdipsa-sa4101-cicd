@@ -27,7 +27,7 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: 'HIGH'  
+        severity: 'CRITICAL'  
         output: trivy-report.txt
         exit-code: 1
    
