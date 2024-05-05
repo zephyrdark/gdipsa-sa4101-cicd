@@ -48,8 +48,8 @@ jobs:
       # run: |
       #     echo "TRIVY_REPORT_PRODUCED=$(if [ -f trivy-report.txt ]; then echo "'true'")" >> $GITHUB_ENV
 
-      # test this - v3. try to at least output 'true' first.
-      run: if [ -f trivy-report.txt ]; then echo "'true'"
+      # test this - v12. try to at least output 'true' first.
+      run: echo $(if [ -f trivy-report.txt ]; then echo "'true'";)
 
   # name of job
   detected-vulnerabilities-notify-slack:
