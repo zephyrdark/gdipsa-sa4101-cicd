@@ -74,9 +74,14 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}
             
-    # 3. Sign image using cosign-installer
-    # - name: cosign-installer
-    #   uses: sigstore/cosign-installer@v3.5.0
+    # 3. Install cosign
+    - name: cosign-installer
+      uses: sigstore/cosign-installer@v3.5.0
+
+    # 3a. Sign image using cosign
+    - name: cosign-sign-image
+      run: |
+        cosign sign $IMAGE
 
     # x. Send success notification to Slack
     - name: Slack notification - Workflow successful run
@@ -84,7 +89,7 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
         SLACK_TITLE: Image built and signed // not really
-        SLACK_MESSAGE: "*Name:* ${{ secrets.AUTHOR_NAME }}\n*Matriculation:* ${{ secrets.AUTHOR_MATRI_NO }}\n*Email:* ${{ secrets.AUTHOR_EMAIL }}\n*Git:* https://github.com/${{ github.repository }}\n*Image:* wip"
+        SLACK_MESSAGE: "*Name:* ${{ secrets.AUTHOR_NAME }}\n*Matriculation:* ${{ secrets.AUTHOR_MATRI_NO }}\n*Email:* ${{ secrets.AUTHOR_EMAIL }}\n*Git:* https://github.com/${{ github.repository }}\n*Image:* https://hub.docker.com/r/${{ secrets.DOCKERHUB_USER_ID }}/go-fortune"
 
     # TO-DO: figure out how to get below details .. it is the url of the dockerhub image which broke up into 4
     # https://hub.docker.com/layers/alvinlee24/go-fortune/
