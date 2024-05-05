@@ -9,8 +9,8 @@ on:
 # jobs
 jobs:
 
-  # name of jobs
-  my-cicd-pipeline:
+  # name of job
+  checkout-and-scan:
 
     # runner
     runs-on: ubuntu-latest
@@ -35,8 +35,24 @@ jobs:
         severity: 'CRITICAL'  
         output: trivy-report.txt
 
-    # check if trivy-report.txt exists
+    # set env var on trivy-report.txt produced status
+    - name: Check if trivy report was produced
+      run: |
+        if [ -f trivy-report.txt ]; then echo "{TRIVY_REPORT_PRODUCED}={'true'}" >> $GITHUB_ENV
+        if [! -f trivy-report.txt ]; then echo "{TRIVY_REPORT_PRODUCED}={'false'}" >> $GITHUB_ENV
 
+  # name of job
+  detected-vulnerabilities-notify-slack:
+  
+    # runner
+    runs-on: ubuntu-latest
+
+    # condition for not running pipeline if commit message starts with #NORUN.
+    if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
+
+    # steps in this job
+    steps:
+    
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
@@ -54,15 +70,15 @@ jobs:
         file_path: 'trivy-report.txt'
         initial_comment: 'Scan report by ${{ github.actor }}'
 
-    # 0b. build-image-from-Dockerfile
+  # 0b. build-image-from-Dockerfile
     # - name: Build image from github commit
     #   run: |
     #      docker build ${{ github.repositoryUrl }}#${{ github.ref }}:${{ github.sha }}
 
-    # 2. containerise-golang-application
+  # 2. containerise-golang-application
 
-    # 3. push-image-to-docker-hub
+  # 3. push-image-to-docker-hub
 
-    # 4. digitally-sign-the-image
+  # 4. digitally-sign-the-image
 
-    # 5. send-notification-to-slack
+  # 5. send-notification-to-slack
