@@ -92,12 +92,12 @@ jobs:
     - name: cosign-installer
       uses: sigstore/cosign-installer@v3.5.0
 
-    # 3a. Write signing key to disk - workaround from https://www.youtube.com/watch?v=OqZlKbTRWOY
-    - name: Write signing key to disk
-      run: 'echo "$KEY" > cosign.key'
-      shell: bash
-      env:
-        KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+    # # 3a. Write signing key to disk - workaround from https://www.youtube.com/watch?v=OqZlKbTRWOY
+    # - name: Write signing key to disk
+    #   run: 'echo "$KEY" > cosign.key'
+    #   shell: bash
+    #   env:
+    #     KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
 
     # 3b. Sign image using cosign
     - name: Sign image with a key
@@ -107,7 +107,7 @@ jobs:
           # images+="${tag}@${DIGEST} "
           # done
           # cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
-          cosign sign --key --yes cosign.key ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
+          cosign sign --yes --key  env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
       env:
         TAGS: ${{ steps.docker_meta.outputs.tags }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }} # repo secret updated as per cosign.key
