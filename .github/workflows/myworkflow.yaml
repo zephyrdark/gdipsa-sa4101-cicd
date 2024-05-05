@@ -54,7 +54,7 @@ jobs:
       # test - v18. test updating TRIVY_REPORT_PRODUCED to 'true'/'false' conditionally.
       run: |
           echo "TRIVY_REPORT_PRODUCED=$(if [[ -f trivy-report.txt ]]; then echo "true"; fi)" >> "$GITHUB_ENV"
-          echo "TRIVY_REPORT_PRODUCED=$(if ! [[ -f trivy-report.txt ]]; then echo "false"; fi)" >> "$GITHUB_ENV"
+          echo "TRIVY_REPORT_PRODUCED=$(if [[ ! -f trivy-report.txt ]]; then echo "false"; fi)" >> "$GITHUB_ENV"
 
     - name: Test 1
       run: echo ${{ env.TRIVY_REPORT_PRODUCED }}
