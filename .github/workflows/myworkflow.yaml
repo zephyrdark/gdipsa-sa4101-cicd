@@ -79,14 +79,6 @@ jobs:
         context: ./go-fortune
         push: true
         tags: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}
-    
-    # For getting Docker image digest
-    - name: Docker Metadata action
-      id: docker_meta
-      uses: docker/metadata-action@v5.5.1
-      with:
-        images: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}
-        tags: type=sha,format=long
 
     # 3. Install cosign
     - name: cosign-installer
