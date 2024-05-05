@@ -61,7 +61,7 @@ jobs:
           echo "TRIVY_REPORT_PRODUCED=$(if ! [ -f trivy-report.txt ]; then echo "false"; fi)" >> $GITHUB_ENV
           if ! [ -f trivy-report.txt ]; then echo "false"; fi
 
-    - name: Test
+    - name: Test 1
       run: echo $TRIVY_REPORT_PRODUCED
 
   # name of job
@@ -76,11 +76,14 @@ jobs:
     # steps in this job
     steps:
     
+    - name: Test 2
+      run: echo $TRIVY_REPORT_PRODUCED
+    
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
 
       # condition for running step trivy-report was produced. v3.
-      if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
+      if: ${{ env.TRIVY_REPORT_PRODUCED == true }}
 
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -92,7 +95,7 @@ jobs:
     - name: VULNERABILITY DETECTED - Slack Upload File
   
       # condition for running step trivy-report was produced.
-      if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
+      if: ${{ env.TRIVY_REPORT_PRODUCED == true }}
 
       uses: MeilCli/slack-upload-file@v4.0.6
       with:
