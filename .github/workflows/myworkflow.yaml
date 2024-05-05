@@ -107,7 +107,7 @@ jobs:
           # images+="${tag}@${DIGEST} "
           # done
           # cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
-          cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
+          cosign sign --key --yes cosign.key ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
       env:
         TAGS: ${{ steps.docker_meta.outputs.tags }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }} # repo secret updated as per cosign.key
