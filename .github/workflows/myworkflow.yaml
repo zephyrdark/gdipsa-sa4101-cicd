@@ -35,7 +35,7 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: 'CRITICAL'  
+        severity: 'HIGH'  
         output: trivy-report.txt
 
     # set env var on trivy-report.txt produced status
