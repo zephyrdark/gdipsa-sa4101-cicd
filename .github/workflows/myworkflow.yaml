@@ -110,7 +110,7 @@ jobs:
           cosign sign --key cosign.key ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
       env:
         TAGS: ${{ steps.docker_meta.outputs.tags }}
-        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }} # repo secret newlines removed
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }} # repo secret updated as per cosign.key
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
