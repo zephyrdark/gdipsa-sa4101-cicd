@@ -85,7 +85,7 @@ jobs:
       id: docker_meta
       uses: docker/metadata-action@v5.5.1
       with:
-        images: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune
+        images: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}
         tags: type=sha,format=long
 
     # 3. Install cosign
@@ -119,16 +119,3 @@ jobs:
     # bb795781b971eaf39ff445d5da45245bf6570977/
     # images/sha256:7dede41f2c6d9aa3ff6534b1c068998b5b0e286c8fba7216299a9f24225d6cce
     # ?uuid=F2B92B7C-8F67-4436-9D9D-2B6AA329621F
-
-  # 0b. build-image-from-Dockerfile
-    # - name: Build image from github commit
-    #   run: |
-    #      docker build ${{ github.repositoryUrl }}#${{ github.ref }}:${{ github.sha }}
-
-  # 2. containerise-golang-application
-
-  # 3. push-image-to-docker-hub
-
-  # 4. digitally-sign-the-image
-
-  # 5. send-notification-to-slack
