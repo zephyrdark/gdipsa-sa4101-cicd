@@ -38,17 +38,17 @@ jobs:
     # set env var on trivy-report.txt produced status
     - name: Check if trivy report was produced
       run: |
-        if [ -f trivy-report.txt ]; then echo "{TRIVY_REPORT_PRODUCED}={'true'}" >> "$GITHUB_ENV"
-        if [! -f trivy-report.txt ]; then echo "{TRIVY_REPORT_PRODUCED}={'false'}" >> "$GITHUB_ENV"
+        if [ -f trivy-report.txt ]; then echo "TRIVY_REPORT_PRODUCED='true'" >> $GITHUB_ENV
+        if [! -f trivy-report.txt ]; then echo "TRIVY_REPORT_PRODUCED='false'" >> $GITHUB_ENV
 
   # name of job
   detected-vulnerabilities-notify-slack:
-  
+
     # runner
     runs-on: ubuntu-latest
 
     # condition for not running pipeline if commit message starts with #NORUN.
-    if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
+    if: ${{ TRIVY_REPORT_PRODUCED == 'true' }}
 
     # steps in this job
     steps:
