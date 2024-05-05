@@ -28,10 +28,11 @@ jobs:
         severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # check repo for current severity. HIGH.
         output: trivy-report.txt
         exit-code: '1'
+        continue-on-error: true
 
     # 1a. VULNERABILITY DETECTED - send report to slack // tested and it works to send notification to slack.
     - name: VULNERABILITY DETECTED - Slack Notification
-      if: steps.trivy-scan.outcome == 'failure'
+      if: steps.trivy-scan.outcome == 'failure' && steps.trivy-scan.conclusion == 'success'
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
@@ -40,7 +41,7 @@ jobs:
 
     # 1b. VULNERABILITY DETECTED - upload file to slack
     - name: VULNERABILITY DETECTED - Slack Upload File
-      if: steps.trivy-scan.outcome == 'failure'
+      if: steps.trivy-scan.outcome == 'failure' && steps.trivy-scan.conclusion == 'success'
       uses: MeilCli/slack-upload-file@v4.0.6
       with:
         slack_token: ${{ secrets.SLACK_TOKEN_TEST_SUBMISSION }}
