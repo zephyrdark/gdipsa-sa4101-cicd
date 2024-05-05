@@ -25,12 +25,12 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # check repo for current severity. CRITICAL.
+        severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # set severity in repo variables. current=CRITICAL.
         output: trivy-report.txt
         exit-code: '1'
       continue-on-error: true
 
-    # 1a. VULNERABILITY DETECTED - send report to slack // tested and it works to send notification to slack.
+    # 1a. VULNERABILITY DETECTED - send report to slack.
     - name: VULNERABILITY DETECTED - Slack Notification
       if: steps.step-trivy-scan.outcome == 'failure' && steps.step-trivy-scan.conclusion == 'success'
       uses: rtCamp/action-slack-notify@v2
@@ -95,15 +95,10 @@ jobs:
     # 4. Sign image using cosign
     - name: Sign image with a key
       run: |
-          # images=""
-          # for tag in ${TAGS}; do
-          # images+="${tag}@${DIGEST} "
-          # done
-          # cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
           cosign sign --yes --key  env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
       env:
         TAGS: ${{ steps.docker_meta.outputs.tags }}
-        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }} # repo secret updated as per cosign.key
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
