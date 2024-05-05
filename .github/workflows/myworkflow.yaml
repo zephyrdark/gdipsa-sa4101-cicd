@@ -54,7 +54,7 @@ jobs:
       # test - v17. test updating TRIVY_REPORT_PRODUCED to 'true'/'false' conditionally.
       run: |
           echo "TRIVY_REPORT_PRODUCED=$(if [ -f trivy-report.txt ]; then echo "true"; fi)" >> "$GITHUB_ENV"
-          echo "TRIVY_REPORT_PRODUCED=$(if ! [ -f trivy-report.txt ]; then echo "false"; fi)" >> "$GITHUB_ENV"
+          echo "TRIVY_REPORT_PRODUCED=$(if ![ -f trivy-report.txt ]; then echo "false"; fi)" >> "$GITHUB_ENV"
 
     - name: Test 1
       run: echo ${{ env.TRIVY_REPORT_PRODUCED }}
@@ -78,7 +78,7 @@ jobs:
     - name: VULNERABILITY DETECTED - Slack Notification
 
       # condition for running step trivy-report was produced. v3.
-      if: ${{ env.TRIVY_REPORT_PRODUCED }}
+      if: ${{ env.TRIVY_REPORT_PRODUCED == true }}
 
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -90,7 +90,7 @@ jobs:
     - name: VULNERABILITY DETECTED - Slack Upload File
   
       # condition for running step trivy-report was produced.
-      if: ${{ ! env.TRIVY_REPORT_PRODUCED }}
+      if: ${{ ! env.TRIVY_REPORT_PRODUCED == true }}
 
       uses: MeilCli/slack-upload-file@v4.0.6
       with:
