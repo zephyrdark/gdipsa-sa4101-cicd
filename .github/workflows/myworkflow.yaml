@@ -72,7 +72,7 @@ jobs:
       with:
         context: ./go-fortune
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/go-fortune:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}
             
     # x. Send success notification to Slack
     - name: Slack notification - Workflow successful run
