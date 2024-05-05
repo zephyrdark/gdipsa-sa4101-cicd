@@ -62,7 +62,7 @@ jobs:
           if ! [ -f trivy-report.txt ]; then echo "false"; fi
 
     - name: Test 1
-      run: echo $TRIVY_REPORT_PRODUCED
+      run: echo ${{ env.TRIVY_REPORT_PRODUCED }}
 
   # name of job
   detected-vulnerabilities-notify-slack:
@@ -77,7 +77,7 @@ jobs:
     steps:
     
     - name: Test 2
-      run: echo $TRIVY_REPORT_PRODUCED
+      run: echo ${{ env.TRIVY_REPORT_PRODUCED }}
     
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
