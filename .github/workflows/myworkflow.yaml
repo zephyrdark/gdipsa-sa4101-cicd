@@ -44,6 +44,9 @@ jobs:
   # name of job
   detected-vulnerabilities-notify-slack:
 
+    env:
+      TRIVY_REPORT_PRODUCED: $TRIVY_REPORT_PRODUCED
+
     # runner
     runs-on: ubuntu-latest
 
