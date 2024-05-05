@@ -95,13 +95,13 @@ jobs:
     # 3a. Sign image using cosign
     - name: Sign image with a key
       run: |
-          images=""
-          for tag in ${TAGS}; do
-          images+="${tag}@${DIGEST} "
-          done
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
+          # images=""
+          # for tag in ${TAGS}; do
+          # images+="${tag}@${DIGEST} "
+          # done
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}@${DIGEST}
       env:
-        TAGS: ${{ steps.docker_meta.outputs.tags }}
+        # TAGS: ${{ steps.docker_meta.outputs.tags }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
