@@ -54,10 +54,10 @@ jobs:
       #         echo "'true'"
       #     fi
 
-      # test - v15. test updating TRIVY_REPORT_PRODUCED to 'true'/'false' conditionally.
+      # test - v16. test updating TRIVY_REPORT_PRODUCED to 'true'/'false' conditionally.
       run: |
-          echo "TRIVY_REPORT_PRODUCED=$(if [ -f trivy-report.txt ]; then echo "'true'"; fi)" >> $GITHUB_ENV
-          echo "TRIVY_REPORT_PRODUCED=$(if [! -f trivy-report.txt ]; then echo "'false'"; fi)" >> $GITHUB_ENV
+          echo "TRIVY_REPORT_PRODUCED=$(if [ -f trivy-report.txt ]; then echo "true"; fi)" >> $GITHUB_ENV
+          echo "TRIVY_REPORT_PRODUCED=$(if ! [ -f trivy-report.txt ]; then echo "false"; fi)" >> $GITHUB_ENV
 
   # name of job
   detected-vulnerabilities-notify-slack:
@@ -74,8 +74,8 @@ jobs:
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
 
-      # condition for running step trivy-report was produced.
-      if: ${{ env.TRIVY_REPORT_PRODUCED }}
+      # condition for running step trivy-report was produced. v3.
+      if: ${{ env.TRIVY_REPORT_PRODUCED == true }}
 
       uses: rtCamp/action-slack-notify@v2
       env:
