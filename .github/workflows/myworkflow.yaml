@@ -28,7 +28,7 @@ jobs:
         severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # check repo for current severity. HIGH.
         output: trivy-report.txt
         exit-code: '1'
-        continue-on-error: true
+      continue-on-error: true
 
     # 1a. VULNERABILITY DETECTED - send report to slack // tested and it works to send notification to slack.
     - name: VULNERABILITY DETECTED - Slack Notification
