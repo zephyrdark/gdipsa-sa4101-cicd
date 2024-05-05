@@ -73,9 +73,9 @@ jobs:
     
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
-  
+
       # condition for running step trivy-report was produced.
-      if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
+      if: ${{ env.TRIVY_REPORT_PRODUCED }}
 
       uses: rtCamp/action-slack-notify@v2
       env:
