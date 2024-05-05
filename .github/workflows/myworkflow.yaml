@@ -78,7 +78,7 @@ jobs:
     - name: VULNERABILITY DETECTED - Slack Notification
 
       # condition for running step trivy-report was produced. v3.
-      if: ${{ env.TRIVY_REPORT_PRODUCED }} == true
+      if: ${{ env.TRIVY_REPORT_PRODUCED }}
 
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -90,7 +90,7 @@ jobs:
     - name: VULNERABILITY DETECTED - Slack Upload File
   
       # condition for running step trivy-report was produced.
-      if: ${{ env.TRIVY_REPORT_PRODUCED }} == true
+      if: ${{ ! env.TRIVY_REPORT_PRODUCED }}
 
       uses: MeilCli/slack-upload-file@v4.0.6
       with:
