@@ -25,7 +25,7 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # check repo for current severity. HIGH..
+        severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # check repo for current severity. CRITICAL.
         output: trivy-report.txt
         exit-code: '1'
       continue-on-error: true
@@ -50,7 +50,7 @@ jobs:
         initial_comment: 'Scan report by ${{ secrets.AUTHOR_NAME }} '
 
     # 2. NO VULNERABILITY - proceed to build and push container
-    - name: Build and push container
+    - name: Slack notification - Workflow successful run
       if: steps.trivy-scan.outcome == 'success'
       uses: rtCamp/action-slack-notify@v2
       env:
