@@ -41,7 +41,7 @@ jobs:
     # set env var on trivy-report.txt produced status
     - name: Check if trivy report was produced
       run: |
-        if [ -f trivy-report.txt ]; then echo "'true'" >> $TRIVY_REPORT_PRODUCED
+        if [ -f trivy-report.txt ]; then echo "'true'" > $env.TRIVY_REPORT_PRODUCED
 
   # name of job
   detected-vulnerabilities-notify-slack:
@@ -53,7 +53,7 @@ jobs:
     steps:
     
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
-    - name: Slack Notification
+    - name: VULNERABILITY DETECTED - Slack Notification
   
       # condition for running step trivy-report was produced.
       if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
@@ -65,7 +65,7 @@ jobs:
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
 
     # 1a2. upload file to slack
-    - name: slack upload file
+    - name: VULNERABILITY DETECTED - Slack Upload File
   
       # condition for running step trivy-report was produced.
       if: ${{ env.TRIVY_REPORT_PRODUCED == 'true' }}
