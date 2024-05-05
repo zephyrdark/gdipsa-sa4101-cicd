@@ -6,25 +6,20 @@ on:
   push:
     branches: ['release/v[0-9]+.[0-9]+']
 
-# jobs
 jobs:
 
-  # name of job
-  checkout-and-scan:
-
-    # runner
+  # name of jobs
+  checkout:
     runs-on: ubuntu-latest
-
     # condition for not running pipeline if commit message starts with #NORUN.
     if: ${{ !startsWith(github.event.head_commit.message, '#NORUN') }}
-
-    # steps in this job
     steps:
-    
-    # 0a. checkout-code
     - name: Checkout code
       uses: actions/checkout@v4
 
+  scan:
+    runs-on: ubuntu-latest  
+    steps:
     # 1. scan-code-for-vulnerabilities
     - name: Aqua Security Trivy
       uses: aquasecurity/trivy-action@0.19.0
@@ -34,27 +29,12 @@ jobs:
         format: 'table'
         severity: 'CRITICAL'  
         output: trivy-report.txt
+        exit-code: 1
 
-    # set env var on trivy-report.txt produced status
-    - name: Check if trivy report was produced
-      # comment out - v13. tested to output 'true'.
-      # run: |
-      #     if [ -f trivy-report.txt ]; then 
-      #         echo "'true'"
-      #     fi
-
-      # test - v20. test updating TRIVY_REPORT_PRODUCED to 'true'/'false' conditionally.
-      run: |
-          echo "TRIVY_REPORT_PRODUCED=$(if [[ -f trivy-report.txt ]]; then echo "true"; else echo "false"; fi)" >> "$GITHUB_ENV"
-
-    - name: Test 1
-      run: echo ${{ env.TRIVY_REPORT_PRODUCED }}
-
-  # name of job
   detected-vulnerabilities-notify-slack:
 
     # wait for checkout-and-scan job to complete.
-    needs: checkout-and-scan
+    needs: [checkout, scan]
 
     # runner
     runs-on: ubuntu-latest
@@ -62,15 +42,8 @@ jobs:
     # steps in this job
     steps:
     
-    - name: Test 2
-      run: echo ${{ env.TRIVY_REPORT_PRODUCED }}
-    
     # 1a1. send report to slack // tested and it works to send notification to slack. to study how to customise it.
     - name: VULNERABILITY DETECTED - Slack Notification
-
-      # condition for running step trivy-report was produced. v3.
-      if: ${{ env.TRIVY_REPORT_PRODUCED == true }}
-
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
@@ -79,10 +52,6 @@ jobs:
 
     # 1a2. upload file to slack
     - name: VULNERABILITY DETECTED - Slack Upload File
-  
-      # condition for running step trivy-report was produced.
-      if: ${{ ! env.TRIVY_REPORT_PRODUCED == true }}
-
       uses: MeilCli/slack-upload-file@v4.0.6
       with:
         slack_token: ${{ secrets.SLACK_TOKEN_TEST_SUBMISSION }}
