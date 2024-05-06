@@ -78,7 +78,7 @@ jobs:
       with:
         context: ./go-fortune
         push: true
-        tags: ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ github.sha }}
 
     # 3. Install cosign
     - name: cosign-installer
@@ -87,7 +87,7 @@ jobs:
     # 4. Sign image using cosign
     - name: Sign image with a key
       run: |
-          cosign sign --yes --key  env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/go-fortune@${DIGEST}
+          cosign sign --yes --key  env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}@${DIGEST}
       env:
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
@@ -99,4 +99,4 @@ jobs:
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
         SLACK_TITLE: Image built and signed
-        SLACK_MESSAGE: "*Name:* ${{ secrets.AUTHOR_NAME }}\n*Matriculation:* ${{ secrets.AUTHOR_MATRI_NO }}\n*Email:* ${{ secrets.AUTHOR_EMAIL }}\n*Git:* https://github.com/${{ github.repository }}\n*Image:* https://hub.docker.com/r/${{ secrets.DOCKERHUB_USER_ID }}/go-fortune"
+        SLACK_MESSAGE: "*Name:* ${{ secrets.AUTHOR_NAME }}\n*Matriculation:* ${{ secrets.AUTHOR_MATRI_NO }}\n*Email:* ${{ secrets.AUTHOR_EMAIL }}\n*Git:* https://github.com/${{ github.repository }}\n*Image:* https://hub.docker.com/r/${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}"
