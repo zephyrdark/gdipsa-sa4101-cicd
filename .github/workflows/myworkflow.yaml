@@ -76,7 +76,7 @@ jobs:
       id: build-and-push
       uses: docker/build-push-action@v5.3.0
       with:
-        context: ./go-fortune
+        context: ./${{ vars.DOCKER_IMAGE_NAME }}
         push: true
         tags: ${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ github.sha }}
 
@@ -96,7 +96,7 @@ jobs:
     # 4a. Verify sign
     - name: Verify cosign signature
       run: |
-        cosign verify --key ${{ secrets.COSIGN_PUBLIC_KEY_URL }} ${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}@${DIGEST}
+        cosign verify --key ./${{ vars.DOCKER_IMAGE_NAME }}/cosign.pub ${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}@${DIGEST}
       env:
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
