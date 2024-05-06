@@ -1,5 +1,5 @@
 # workflow
-name: Build and Push
+name: Test
 
 # trigger
 on:
