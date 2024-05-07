@@ -1,5 +1,5 @@
 # workflow
-name: Build and Push
+name: Test
 
 # trigger
 on:
@@ -57,14 +57,6 @@ jobs:
     # 2. NO VULNERABILITY - proceed to build and push container
 
     # as per docker/build-push-action example
-    - name: Build - Set up QEMU
-      uses: docker/setup-qemu-action@v3.0.0
-
-    # as per docker/build-push-action example
-    - name: Build - Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3.3.0
-
-    # as per docker/build-push-action example
     - name: Build - Login to Docker Hub
       uses: docker/login-action@v3.1.0
       with:
@@ -82,10 +74,12 @@ jobs:
 
     # 3. Install cosign
     - name: Sign - Cosign-installer
+      id: cosign-install
       uses: sigstore/cosign-installer@v3.5.0
 
     # 4. Sign image using cosign
     - name: Sign - Cosign Sign Image with Key
+      id: cosign-sign
       run: |
           cosign sign --yes --key  env://COSIGN_PRIVATE_KEY ${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}@${DIGEST}
       env:
@@ -95,6 +89,7 @@ jobs:
 
     # 5. Send success notification to Slack
     - name: Workflow Completed - Send Slack Notification
+      if: steps.build-and-push.conclusion == 'success' && steps.cosign-sign.conclusion == 'success'
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}

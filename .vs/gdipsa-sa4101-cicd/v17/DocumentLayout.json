@@ -1,37 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Heaty\\source\\repos\\gdipsa-sa4101-cicd\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Heaty\\source\\repos\\gdipsa-sa4101-cicd\\.github\\workflows\\myworkflow.yaml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.github\\workflows\\myworkflow.yaml||{8B382828-6202-11D1-8870-0000F87579D2}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "myworkflow.yaml",
-              "DocumentMoniker": "C:\\Users\\Heaty\\source\\repos\\gdipsa-sa4101-cicd\\.github\\workflows\\myworkflow.yaml",
-              "RelativeDocumentMoniker": ".github\\workflows\\myworkflow.yaml",
-              "ToolTip": "C:\\Users\\Heaty\\source\\repos\\gdipsa-sa4101-cicd\\.github\\workflows\\myworkflow.yaml",
-              "RelativeToolTip": ".github\\workflows\\myworkflow.yaml",
-              "ViewState": "AQIAAE8AAAAAAAAAAAAwwE4AAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2024-05-03T15:02:36.668Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
