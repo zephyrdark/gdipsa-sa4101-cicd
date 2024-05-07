@@ -38,7 +38,8 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
         SLACK_TITLE: Scan failed - ${{ secrets.AUTHOR_NAME }} 
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
-        SLACK_COLOR: ${{ job.status }}
+        # for red color bar on the left of notification to Slack
+        SLACK_COLOR: failure
 
     # 1b. VULNERABILITY DETECTED - upload file to slack
     - name: Vulnerability Detected - Upload Scan to Slack
@@ -98,5 +99,3 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_TEST_SUBMISSION }}
         SLACK_TITLE: Image built and signed
         SLACK_MESSAGE: "*Name:* ${{ secrets.AUTHOR_NAME }}\n*Matriculation:* ${{ secrets.AUTHOR_MATRI_NO }}\n*Email:* ${{ secrets.AUTHOR_EMAIL }}\n*Git:* ${{ github.server_url }}/${{ github.repository }}\n*Image:* https://hub.docker.com/r/${{ secrets.DOCKERHUB_USER_ID }}/${{ vars.DOCKER_IMAGE_NAME }}"
-        # for red color bar on the left of notification to Slack
-        SLACK_COLOR: failure
