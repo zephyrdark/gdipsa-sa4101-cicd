@@ -25,7 +25,7 @@ jobs:
         scan-type: 'fs'
         ignore-unfixed: true
         format: 'table'
-        severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # set severity in repo variables. current=HIGH.
+        severity: ${{ vars.TRIVY_SEVERITY_TEST_SUBMISSION }} # set severity in repo variables. current=CRITICAL.
         output: trivy-report.txt
         exit-code: '1'
       continue-on-error: true
